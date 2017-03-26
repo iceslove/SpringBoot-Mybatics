@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.example.dao.MenuDao" >
+  <resultMap id="BaseResultMap" type="com.wx.example.entity.Menu" >
+    <result column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="menu_text" property="menuText" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_css" property="menuCss" jdbcType="VARCHAR" />
+    <result column="menu_parent" property="menuParent" jdbcType="INTEGER" />
+    <result column="menu_order" property="menuOrder" jdbcType="INTEGER" />
+    <result column="menu_leaf" property="menuLeaf" jdbcType="INTEGER" />
+    <result column="menu_desc" property="menuDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    menu_id, menu_text, menu_url,menu_css,menu_parent,menu_order,menu_leaf,menu_desc
+  </sql>
+  
+  <select id="getMenuById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getFirstMenu" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu
+    where menu_parent = 0
+  </select>
+
+  <select id="getMenuByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu
+    where menu_parent = #{menuParent,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryMenuByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select <include refid="Base_Column_List" /> from menu
+	<where>
+      <if test="keyword != null and keyword != ''">
+        menu_text like "%"#{keyword}"%"
+      </if>
+    </where>
+    <if test="orderBy != null and orderBy != ''">
+        order by ${orderBy} 
+    </if>
+  </select>
+  
+  <delete id="deleteMenu" parameterType="java.lang.Integer" >
+    delete from menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertMenu" parameterType="com.wx.example.entity.Menu" >
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="menuText != null" >
+        menu_text,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuCss != null" >
+        menu_css,
+      </if>
+      <if test="menuParent != null" >
+        menu_parent,
+      </if>
+      <if test="menuOrder != null" >
+        menu_order,
+      </if>
+      <if test="menuLeaf != null" >
+        menu_leaf,
+      </if>
+      <if test="menuDesc != null" >
+        menu_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuText != null" >
+        #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCss != null" >
+        #{menuCss,jdbcType=VARCHAR},
+      </if>
+      <if test="menuParent != null" >
+        #{menuParent,jdbcType=INTEGER},
+      </if>
+      <if test="menuOrder != null" >
+        #{menuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="menuLeaf != null" >
+        #{menuLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="menuDesc != null" >
+        #{menuDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateMenu" parameterType="com.wx.example.entity.Menu" >
+    update menu
+    <trim suffixOverrides="," >
+    <set >
+      <if test="menuText != null" >
+        menu_text = #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCss != null" >
+        menu_css = #{menuCss,jdbcType=VARCHAR},
+      </if>
+      <if test="menuParent != null" >
+        menu_parent = #{menuParent,jdbcType=INTEGER},
+      </if>
+      <if test="menuOrder != null" >
+        menu_order = #{menuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="menuLeaf != null" >
+        menu_leaf = #{menuLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="menuDesc != null" >
+        menu_desc = #{menuDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    </trim>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update> 
+
+</mapper>

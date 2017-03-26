@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.example.dao.IntKeyDao" >
+  <resultMap id="BaseResultMap" type="com.wx.example.entity.IntKey" >
+    <result column="key_name" property="keyName" jdbcType="VARCHAR" />
+    <result column="key_value" property="keyValue" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="getByKeyName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select key_name, key_value from int_key
+    where key_name = #{keyName,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateKeyValue" parameterType="com.wx.example.entity.Account" >
+    update int_key
+    <trim suffixOverrides="," >
+    <set >
+      <if test="keyValue != null" >
+        key_value = #{keyValue,jdbcType=INTEGER},
+      </if>
+    </set>
+    </trim>
+    where key_name = #{keyName,jdbcType=VARCHAR}
+  </update> 
+
+</mapper>

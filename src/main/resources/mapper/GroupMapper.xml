@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.example.dao.GroupDao" >
+  <resultMap id="BaseResultMap" type="com.wx.example.entity.Group" >
+    <result column="s_group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="s_group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="s_group_type_id" property="groupType" jdbcType="INTEGER" />
+    <result column="s_group_left" property="groupLeft" jdbcType="INTEGER" />
+    <result column="s_group_right" property="groupRight" jdbcType="INTEGER" />
+    <result column="s_group_parent" property="groupParent" jdbcType="INTEGER" />
+    <result column="s_group_level" property="groupLevel" jdbcType="INTEGER" />
+    <result column="s_group_leaf" property="groupLeaf" jdbcType="INTEGER" />
+    <result column="s_group_desc" property="groupDesc" jdbcType="VARCHAR" />
+    <result column="created_at" property="createTime" jdbcType="DATE" />
+  </resultMap>
+
+  <resultMap id="GetResultMap" type="com.wx.example.dto.GroupDetailDto" extends="BaseResultMap">
+    <result column="s_group_parent_name" property="groupParentName" jdbcType="VARCHAR" />
+    <result column="s_group_type_title" property="groupTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    s_group_id, s_group_name, s_group_type_id,s_group_left,s_group_right,s_group_parent,s_group_level,
+    s_group_leaf,s_group_desc,created_at
+  </sql>
+  
+  <select id="getGroupById" parameterType="java.lang.Integer" resultMap="GetResultMap">
+    select a.*, b.s_group_name as s_group_parent_name, c.s_group_type_title from s_group as a left join s_group as b on a.s_group_parent = b.s_group_id
+    left join s_group_type as c on a.s_group_type_id = c.s_group_type_id
+    where a.s_group_id = #{groupId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getGroupByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from s_group
+    where s_group_parent = #{groupParent,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryGroupByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select <include refid="Base_Column_List" /> from s_group
+	<where>
+      <if test="keyword != null and keyword != ''">
+        s_group_name like "%"#{keyword}"%"
+      </if>
+    </where>
+    <if test="orderBy != null and orderBy != ''">
+        order by ${orderBy} 
+    </if>
+  </select>
+  
+  <insert id="insertGroup" parameterType="com.wx.example.entity.Group" >
+    insert into s_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        s_group_id,
+      </if>
+      <if test="groupName != null" >
+        s_group_name,
+      </if>
+      <if test="groupType != null" >
+        s_group_type_id,
+      </if>
+      <if test="groupLeft != null" >
+        s_group_left,
+      </if>
+      <if test="groupRight != null" >
+        s_group_right,
+      </if>
+      <if test="groupParent != null" >
+        s_group_parent,
+      </if>
+      <if test="groupLevel != null" >
+        s_group_level,
+      </if>
+      <if test="groupLeaf != null" >
+        s_group_leaf,
+      </if>
+      <if test="groupDesc != null" >
+        s_group_desc,
+      </if>
+      <if test="createTime != null" >
+        created_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        #{groupType,jdbcType=INTEGER},
+      </if>
+      <if test="groupLeft != null" >
+        #{groupLeft,jdbcType=INTEGER},
+      </if>
+      <if test="groupRight != null" >
+        #{groupRight,jdbcType=INTEGER},
+      </if>
+      <if test="groupParent != null" >
+        #{groupParent,jdbcType=INTEGER},
+      </if>
+      <if test="groupLevel != null" >
+        #{groupLevel,jdbcType=INTEGER},
+      </if>
+      <if test="groupLeaf != null" >
+        #{groupLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="groupDesc != null" >
+        #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateGroup" parameterType="com.wx.example.entity.Group" >
+    update s_group
+    <trim suffixOverrides="," >
+    <set >
+      <if test="groupName != null" >
+        s_group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        s_group_type_id = #{groupType,jdbcType=INTEGER},
+      </if>
+      <if test="groupLeft != null" >
+        s_group_left = #{groupLeft,jdbcType=INTEGER},
+      </if>
+      <if test="groupRight != null" >
+        s_group_right = #{groupRight,jdbcType=INTEGER},
+      </if>
+      <if test="groupParent != null" >
+        s_group_parent = #{groupParent,jdbcType=INTEGER},
+      </if>
+      <if test="groupLevel != null" >
+        s_group_level = #{groupLevel,jdbcType=INTEGER},
+      </if>
+      <if test="groupDesc != null" >
+        s_group_desc = #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLeaf != null" >
+        s_group_leaf = #{groupLeaf,jdbcType=INTEGER},
+      </if>
+    </set>
+    </trim>
+    where s_group_id = #{groupId,jdbcType=INTEGER}
+  </update> 
+
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.example.dao.RoleMemberDao" >
+  <resultMap id="BaseResultMap" type="com.wx.example.entity.RoleMember" >
+    <result column="s_role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="sys_account_id" property="accountId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="QueryResultMap" type="com.wx.example.dto.RoleMemberDetailDto" extends="BaseResultMap">
+    <result column="s_role_name" property="roleName" jdbcType="INTEGER" />
+    <result column="sys_account_name" property="accountName" jdbcType="INTEGER" />
+    <result column="sys_account_real_name" property="accountRealName" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    s_role_id, sys_account_id
+  </sql>
+  
+  <select id="getRoleMemberById" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from s_role_member
+    where s_role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryRoleMemberByPage" parameterType="java.util.Map" resultMap="QueryResultMap">
+	select b.s_role_id , b.s_role_name , c.sys_account_id , c.sys_account_name , c.sys_account_real_name
+    from s_role_member as a left join s_role as b on a.s_role_id = b.s_role_id
+    left join account as c on a.sys_account_id = c.sys_account_id
+	<where>
+      <if test="roleId != null and roleId != ''">
+        a.s_role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+      <if test="keyword != null and keyword != ''">
+        and ( b.s_role_name like "%"#{keyword}"%"
+        or c.sys_account_name like "%"#{keyword}"%"
+        or c.sys_account_real_name like "%"#{keyword}"%" )
+      </if>
+    </where>
+    <if test="orderBy != null and orderBy != ''">
+        order by ${orderBy} 
+    </if>
+  </select>
+  
+  <!--<delete id="deleteRoleMember" >-->
+    <!--delete from s_role_member-->
+    <!--where s_role_id = #{roleId,jdbcType=INTEGER} and sys_account_id = #{accountId,jdbcType=INTEGER}-->
+  <!--</delete>-->
+  
+  <delete id="batchDeleteRoleMember" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from s_role_member where sys_account_id in
+    ]]>
+   <foreach collection="list" index="index" item="item" open="(" separator="," close=")">      
+        #{item}      
+   </foreach> 
+ </delete>
+  
+  <insert id="insertRoleMember" parameterType="com.wx.example.entity.RoleMember" >
+    insert into s_role_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        s_role_id,
+      </if>
+      <if test="accountId != null" >
+        sys_account_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

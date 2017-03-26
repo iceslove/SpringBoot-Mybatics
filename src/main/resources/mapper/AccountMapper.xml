@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wx.example.dao.AccountDao" >
+  <resultMap id="BaseResultMap" type="com.wx.example.entity.Account" >
+    <result column="sys_account_id" property="accountId" jdbcType="INTEGER" />
+    <result column="sys_account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="remember_token" property="rememberToken" jdbcType="VARCHAR" />
+    <result column="sys_account_email" property="accountEmail" jdbcType="VARCHAR" />
+    <result column="sys_account_tel" property="accountTel" jdbcType="VARCHAR" />
+    <result column="sys_account_status" property="accountStatus" jdbcType="VARCHAR" />
+    <result column="sys_account_sex" property="accountSex" jdbcType="INTEGER" />
+    <result column="sys_account_pic" property="accountImage" jdbcType="VARCHAR" />
+    <result column="sys_account_real_name" property="accountRealName" jdbcType="VARCHAR" />
+    <result column="sys_account_intro" property="accountIntro" jdbcType="VARCHAR" />
+    <result column="created_at" property="createTime" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    sys_account_id, sys_account_name, password,remember_token,sys_account_email,sys_account_tel,sys_account_status,
+    sys_account_sex,sys_account_pic,sys_account_real_name,sys_account_intro,created_at
+  </sql>
+  
+  <select id="getAccountById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where sys_account_id = #{accountId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAccountByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where sys_account_name = #{accountName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryAccountByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select <include refid="Base_Column_List" /> from account
+	<where>
+      <if test="keyword != null and keyword != ''">
+        sys_account_real_name like "%"#{keyword}"%"
+        or sys_account_name like "%"#{keyword}"%"
+        or sys_account_email like "%"#{keyword}"%"
+        or sys_account_tel like "%"#{keyword}"%"
+      </if>
+    </where>
+    <if test="orderBy != null and orderBy != ''">
+        order by ${orderBy} 
+    </if>
+  </select>
+  
+  <delete id="deleteAccount" parameterType="java.lang.Integer" >
+    delete from account
+    where sys_account_id = #{accountId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="batchDeleteAccount" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from account where account_id in  
+    ]]>
+   <foreach collection="list" index="index" item="item" open="(" separator="," close=")">      
+        #{item}      
+   </foreach> 
+ </delete>
+  
+  <insert id="insertAccount" parameterType="com.wx.example.entity.Account" >
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        sys_account_id,
+      </if>
+      <if test="accountName != null" >
+        sys_account_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="accountEmail != null" >
+        sys_account_email,
+      </if>
+      <if test="accountTel != null" >
+        sys_account_tel,
+      </if>
+      <if test="accountStatus != null" >
+        sys_account_status,
+      </if>
+      <if test="accountSex != null" >
+        sys_account_sex,
+      </if>
+      <if test="accountImage != null" >
+        sys_account_pic,
+      </if>
+      <if test="accountRealName != null" >
+        sys_account_real_name,
+      </if>
+      <if test="accountIntro != null" >
+        sys_account_intro,
+      </if>
+      <if test="createTime != null" >
+        created_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountEmail != null" >
+        #{accountEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="accountTel != null" >
+        #{accountTel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null" >
+        #{accountStatus,jdbcType=INTEGER},
+      </if>
+      <if test="accountSex != null" >
+        #{accountSex,jdbcType=INTEGER},
+      </if>
+      <if test="accountImage != null" >
+        #{accountImage,jdbcType=VARCHAR},
+      </if>
+      <if test="accountRealName != null" >
+        #{accountRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountIntro != null" >
+        #{accountIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateAccount" parameterType="com.wx.example.entity.Account" >
+    update account
+    <trim suffixOverrides="," >
+    <set >
+      <if test="accountRealName != null" >
+        sys_account_real_name = #{accountRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSex != null" >
+        sys_account_sex = #{accountSex,jdbcType=VARCHAR},
+      </if>
+      <if test="accountIntro != null" >
+        sys_account_intro = #{accountIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="accountTel != null" >
+        sys_account_tel = #{accountTel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null" >
+        sys_account_status = #{accountStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    </trim>
+    where sys_account_id = #{accountId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updatePassword" >
+    update account set password = #{password,jdbcType=VARCHAR}
+    where sys_account_id = #{accountId,jdbcType=INTEGER}
+  </update>
+
+</mapper>
