@@ -120,8 +120,13 @@
                     <i class="icon-lock"></i> 修改密码 </a>
             </li>
             <li>
-                <a href="/logout">
+                <a href="javascript:void(0)"
+                   onclick="event.preventDefault();
+                   document.getElementById('logout-form').submit();">
                     <i class="icon-key"></i> 安全退出</a>
+                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                    <input type="hidden" name="{{_csrf.parameterName}}"  value="{{_csrf.token}}" />
+                </form>
             </li>
         </ul>
     </li>

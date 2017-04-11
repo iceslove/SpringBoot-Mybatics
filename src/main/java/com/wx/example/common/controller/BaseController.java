@@ -1,5 +1,6 @@
 package com.wx.example.common.controller;
 
+import com.wx.example.common.dto.JsonResult;
 import com.wx.example.common.dto.PageResult;
 import com.wx.example.common.entity.PageBean;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,7 @@ import java.util.Map;
  * Created by wangxiong on 2017/3/18.
  */
 public class BaseController {
-    public PageResult showPageInfo(PageBean<?> pageInfo){
+    public PageResult showPageResult(PageBean<?> pageInfo){
 
         PageResult result = new PageResult();
 
@@ -29,6 +30,20 @@ public class BaseController {
 
         return result;
     }
+
+    public JsonResult showJsonResult(boolean code, String msg, Object data){
+        JsonResult result = new JsonResult();
+        if(code){
+            result.setCode(JsonResult.SUCCESS);
+        }else{
+            result.setCode(JsonResult.ERROR);
+        }
+        result.setMsg(msg);
+        result.setData(data);
+
+        return result;
+    }
+
 
     public Map<String,Object> buildSearchParam(HttpServletRequest request){
 
@@ -64,7 +79,7 @@ public class BaseController {
     protected int getPageNum(HttpServletRequest request) {
         int pageNum = 1;
         try {
-            String starts = request.getParameter("page");
+            String starts = request.getParameter("start");
 
             if (starts != null ) {
                 int start  = Integer.parseInt(starts) + 1;

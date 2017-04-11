@@ -53,7 +53,7 @@ public class GroupMemberController extends BaseController {
         }
         PageBean<GroupMemberDetailDto> pageInfo = groupMemberService.queryGroupMemberByPage(map);
 
-        return showPageInfo(pageInfo);
+        return showPageResult(pageInfo);
     }
 
     @RequestMapping(value="/add",method=RequestMethod.GET)
@@ -75,12 +75,7 @@ public class GroupMemberController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("保存成功");
-
-        return result;
+        return showJsonResult(true,"保存成功",null) ;
     }
 
     @RequestMapping(value="/delete/{groupId}/{accountId}",method=RequestMethod.GET)
@@ -93,11 +88,7 @@ public class GroupMemberController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("删除成功");
-        return result;
+        return showJsonResult(true,"删除成功",null) ;
     }
 
     @RequestMapping(value="selectGroup/{accountId}", method=RequestMethod.GET)
@@ -129,11 +120,7 @@ public class GroupMemberController extends BaseController {
             e.printStackTrace();
             throw new CustomException(e.getClass().toString());
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-
-        return result ;
+        return showJsonResult(true,"保存成功",null) ;
     }
 
 }

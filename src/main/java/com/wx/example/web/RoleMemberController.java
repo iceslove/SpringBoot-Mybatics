@@ -1,12 +1,12 @@
 package com.wx.example.web;
 
+import com.wx.example.common.controller.BaseController;
+import com.wx.example.common.dto.JsonResult;
 import com.wx.example.common.dto.PageResult;
 import com.wx.example.common.entity.PageBean;
 import com.wx.example.common.exception.CustomException;
-import com.wx.example.service.RoleMemberService;
-import com.wx.example.common.controller.BaseController;
-import com.wx.example.common.dto.JsonResult;
 import com.wx.example.dto.RoleMemberDetailDto;
+import com.wx.example.service.RoleMemberService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +47,7 @@ public class RoleMemberController extends BaseController {
         }
         PageBean<RoleMemberDetailDto> pageInfo = roleMemberService.queryRoleMemberByPage(map);
 
-        return showPageInfo(pageInfo);
+        return showPageResult(pageInfo);
     }
 
     @RequestMapping(value="/add",method=RequestMethod.GET)
@@ -68,12 +68,7 @@ public class RoleMemberController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("保存成功");
-
-        return result;
+        return showJsonResult(true,"保存成功",null) ;
     }
 
     @RequestMapping(value="/delete/{roleId}/{accountId}",method=RequestMethod.GET)
@@ -86,11 +81,7 @@ public class RoleMemberController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("删除成功");
-        return result;
+        return showJsonResult(true,"删除成功",null) ;
     }
 
 

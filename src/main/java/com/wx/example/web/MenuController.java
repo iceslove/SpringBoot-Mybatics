@@ -46,7 +46,7 @@ public class MenuController extends BaseController {
         Map<String,Object> map = buildSearchParam(request);
         PageBean<Menu> pageInfo = menuService.queryMenuByPage(map);
 
-        return showPageInfo(pageInfo);
+        return showPageResult(pageInfo);
     }
 
     @RequestMapping(value="/get/{id}", method=RequestMethod.GET)
@@ -60,10 +60,7 @@ public class MenuController extends BaseController {
     @ResponseBody
     public JsonResult getFirstMenu() {
         List<Menu> list = menuService.getFirstMenu();
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setData(list);
-        return result;
+        return showJsonResult(true,"查询成功",list) ;
     }
 
     @RequestMapping(value="/add", method=RequestMethod.GET)
@@ -85,12 +82,7 @@ public class MenuController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("保存成功");
-
-        return result;
+        return showJsonResult(true,"保存成功",null) ;
     }
 
     @RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
@@ -114,11 +106,7 @@ public class MenuController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("更新成功");
-        return result;
+        return showJsonResult(true,"更新成功",null) ;
     }
 
     @RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
@@ -131,11 +119,7 @@ public class MenuController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("删除成功");
-        return result;
+        return showJsonResult(true,"删除成功",null) ;
     }
 
 

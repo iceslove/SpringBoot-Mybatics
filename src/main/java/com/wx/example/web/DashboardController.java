@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-@RequestMapping(value="")
+@RequestMapping(value="/admin")
 public class DashboardController extends BaseController {
 
     @RequestMapping(value="", method=RequestMethod.GET)

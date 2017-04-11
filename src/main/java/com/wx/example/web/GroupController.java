@@ -1,12 +1,12 @@
 package com.wx.example.web;
 
-import com.wx.example.entity.Group;
 import com.wx.example.common.controller.BaseController;
 import com.wx.example.common.dto.JsonResult;
 import com.wx.example.common.exception.CustomException;
 import com.wx.example.common.utils.DateUtils;
 import com.wx.example.dto.GroupDetailDto;
 import com.wx.example.dto.TreeDto;
+import com.wx.example.entity.Group;
 import com.wx.example.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ public class GroupController extends BaseController {
 //        Map<String,Object> map = buildSearchParam(request);
 //        PageBean<Group> pageInfo = groupService.queryGroupByPage(map);
 //
-//        return showPageInfo(pageInfo);
+//        return showPageResult(pageInfo);
 //    }
 
     @RequestMapping(value="/get/{id}", method=RequestMethod.GET)
@@ -48,13 +48,7 @@ public class GroupController extends BaseController {
     public JsonResult getGroupById(@PathVariable int id) throws CustomException{
 
         GroupDetailDto groupDetail = groupService.getGroupById(id);
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("查询成功");
-        result.setData(groupDetail);
-
-        return result;
+        return showJsonResult(true,"查询成功",groupDetail) ;
     }
 
     @RequestMapping(value="/getGroupTree",method=RequestMethod.GET)
@@ -94,12 +88,7 @@ public class GroupController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("保存成功");
-
-        return result;
+        return showJsonResult(true,"保存成功",null) ;
     }
 
     @RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
@@ -123,11 +112,7 @@ public class GroupController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("更新成功");
-        return result;
+        return showJsonResult(true,"更新成功",null) ;
     }
 
     @RequestMapping(value="/delete/{id}",method=RequestMethod.GET)
@@ -140,11 +125,7 @@ public class GroupController extends BaseController {
             e.printStackTrace();
             throw new CustomException();
         }
-
-        JsonResult result = new JsonResult();
-        result.setCode(JsonResult.SUCCESS);
-        result.setMsg("删除成功");
-        return result;
+        return showJsonResult(true,"删除成功",null) ;
     }
 
 }

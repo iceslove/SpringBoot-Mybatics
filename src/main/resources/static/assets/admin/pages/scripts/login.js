@@ -7,7 +7,7 @@ var Login = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                sys_account_name: {
+                username: {
                     required: true
                 },
                 password: {
@@ -19,7 +19,7 @@ var Login = function() {
             },
 
             messages: {
-                sys_account_name: {
+                username: {
                     required: "Username is required."
                 },
                 password: {
@@ -28,7 +28,7 @@ var Login = function() {
             },
 
             invalidHandler: function(event, validator) { //display error alert on form submit   
-                $('#login_failed', $('.login-form')).show();
+                $('.alert-danger', $('.login-form')).show();
             },
 
             highlight: function(element) { // hightlight error inputs
@@ -52,21 +52,61 @@ var Login = function() {
 
         $('.login-form input').keypress(function(e) {
             if (e.which == 13) {
-                $('#login_failed', $('.login-form')).hide();
                 if ($('.login-form').validate().form()) {
                     $('.login-form').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
         });
+
+        $('.forget-form input').keypress(function(e) {
+            if (e.which == 13) {
+                if ($('.forget-form').validate().form()) {
+                    $('.forget-form').submit();
+                }
+                return false;
+            }
+        });
+
+        $('#forget-password').click(function(){
+            $('.login-form').hide();
+            $('.forget-form').show();
+        });
+
+        $('#back-btn').click(function(){
+            $('.login-form').show();
+            $('.forget-form').hide();
+        });
     }
+
+ 
+  
 
     return {
         //main function to initiate the module
         init: function() {
+
             handleLogin();
+
+            // init background slide images
+            $('.login-bg').backstretch([
+                "/assets/admin/pages/img/login/bg1.jpg",
+                "/assets/admin/pages/img/login/bg2.jpg",
+                "/assets/admin/pages/img/login/bg3.jpg"
+                ], {
+                  fade: 1000,
+                  duration: 8000
+                }
+            );
+
+            $('.forget-form').hide();
+
         }
 
     };
 
 }();
+
+jQuery(document).ready(function() {
+    Login.init();
+});

@@ -17,12 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        ModelAndView model = new ModelAndView();
-        model.addObject("exception", e);
-        model.addObject("url", req.getRequestURL());
-        model.setViewName("error");
-        return model;
+    public JsonResult defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+//        ModelAndView model = new ModelAndView();
+//        model.addObject("exception", e);
+//        model.addObject("url", req.getRequestURL());
+//        model.setViewName("error");
+//        return model;
+        JsonResult r = new JsonResult();
+        r.setCode(JsonResult.ERROR);
+        r.setMsg(e.getMessage());
+        r.setData("some error data");
+        r.setUrl(req.getRequestURL().toString());
+        return r;
     }
 
     @ExceptionHandler(value = CustomException.class)

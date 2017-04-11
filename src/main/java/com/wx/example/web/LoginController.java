@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -20,17 +21,17 @@ public class LoginController extends BaseController {
     private AccountService accountService;
 
     @RequestMapping(value="/login",method= RequestMethod.GET)
-    public ModelAndView index(){
-        ModelAndView modal = new ModelAndView("auth/login");
-        return modal;
+    public ModelAndView index(@RequestParam(value = "error", required = false) String error){
+        ModelAndView model = new ModelAndView("auth/login");
+        if (error != null) {
+            model.addObject("error", "不正确的用户名和密码");
+        }
+        return model;
     }
 
-    @RequestMapping(value="/login",method= RequestMethod.POST)
-    public String login(){
-
-        return "redirect:account";
-
-    }
-
+//    @RequestMapping(value="/logout",method= RequestMethod.POST)
+//    public String logout(){
+//        return "redirect:admin/login";
+//    }
 
 }

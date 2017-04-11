@@ -21,6 +21,8 @@ public class Account implements java.io.Serializable{
 
     private Integer accountStatus;
 
+    private Integer accountLocked;
+
     private Integer accountSex;
 
     private String accountImage;
@@ -36,8 +38,10 @@ public class Account implements java.io.Serializable{
     }
 
     public Account(Account account) {
-        this.accountName = account.getAccountName();
-        this.password = account.getPassword();
+        this.accountName   = account.getAccountName();
+        this.accountEmail  = account.getAccountEmail();
+        this.accountStatus = account.getAccountStatus();
+        this.password      = account.getPassword();
     }
 
     public Integer getAccountId() {
@@ -102,6 +106,14 @@ public class Account implements java.io.Serializable{
 
     public void setAccountStatus(Integer accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+    public Integer getAccountLocked() {
+        return accountLocked;
+    }
+
+    public void setAccountLocked(Integer accountLocked) {
+        this.accountLocked = accountLocked;
     }
 
     public String getAccountImage() {

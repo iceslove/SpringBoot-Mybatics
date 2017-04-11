@@ -1,354 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>云助理管理端登录</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta content="" name="description"/>
-    <meta content="" name="author"/>
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="/assets/global/css/fonts.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <style>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8" />
+        <title>Metronic | User Login 5</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN PAGE LEVEL STYLES -->
+        <link href="/assets/admin/pages/css/login.css" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <!-- END THEME LAYOUT STYLES -->
+        <link rel="shortcut icon" href="favicon.ico" /> </head>
+    <!-- END HEAD -->
 
-        .app-page input[type=email], .app-page input[type=password], .app-page input[type=text],textarea {
-            font-size: 14px;
-            color: #383838;
-            border-radius: 3px;
-            border: 1px solid #d9d9d9;
-            background-image: none;
-            -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
-        }
-
-        .app-page input[type=email]:focus,.app-page input[type=password]:focus,.app-page input[type=text]:focus,textarea:focus {
-            outline: none;
-            border-color: #b3b3b3
-        }
-
-        .app-page input[type=email],.app-page input[type=password],.app-page input[type=text] {
-            height: 48px;
-            line-height: 1;
-            border-radius: 0;
-            border-width: 0 0 1px;
-            border-color: #e6e6e6;
-            padding: 0 30px
-        }
-
-        fieldset {
-            margin: 0;
-            min-width: 0
-        }
-
-        fieldset,legend {
-            padding: 0;
-            border: 0
-        }
-
-        .button {
-            outline: none;
-            display: inline-block;
-            text-align: center;
-            font-size: 14px;
-            white-space: nowrap;
-            cursor: pointer;
-            touch-action: manipulation;
-            border-radius: 3px;
-            border: none;
-            text-transform: none;
-            -webkit-user-select: none;
-            height: 40px;
-            line-height: 40px;
-            padding: 0 15px;
-            vertical-align: middle;
-            min-width: 80px
-        }
-
-        .as-line {
-            position: relative;
-            line-height: 1.5em
-        }
-
-        @media screen and (max-width:800px) {
-            .app-page .app-feature {
-                padding: 40px 0
-            }
-
-            .app-signin input {
-                width: 100%
-            }
-
-            .app-page .control-panel {
-                padding: 0 20px
-            }
-        }
-
-        @media screen and (min-width:800px) {
-            .app-page .main-card {
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-box-orient: horizontal;
-                -webkit-box-direction: normal;
-                -webkit-flex-direction: row;
-                flex-direction: row
-            }
-
-            .app-page .app-feature {
-                width: 35%;
-                padding-top: 28vh
-            }
-
-            .app-page .control-panel,.app-signin input {
-                width: 380px
-            }
-        }
-
-        .app-brand {
-            width: 150px;
-            height: 150px;
-            background-image: url('/images/logo.png');
-            background-size: cover;
-            z-index: 20
-        }
-        .app-signin .as-line>input[name=password] {
-            padding-right: 70px
-        }
-
-        .app-signup .as-line {
-            position: relative
-        }
-
-        .app-signup input {
-            width: 380px
-        }
-
-        .app-page {
-            position: absolute
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0
-        }
-
-        .app-page .main-card {
-            background: #fff;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%
-        }
-
-        .app-page .app-feature {
-            background-image: url(https://dn-st.b0.upaiyun.com/talk-account/images/brand-bg.8a0b7f34.jpg);
-            background-color: #b3b3b3;
-            background-size: cover;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column;
-            flex-direction: column;
-            -webkit-box-pack: start;
-            -webkit-justify-content: flex-start;
-            justify-content: flex-start;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            align-items: center;
-            position: relative;
-            background-position: 100% center
-        }
-
-        .app-page .brand-cover {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(0,0,0,.35);
-            z-index: 10
-        }
-
-        .app-page .app-container {
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-            padding-top: 80px;
-            padding-bottom: 80px;
-            overflow: auto;
-            position: relative;
-        }
-
-        .app-page .control-panel {
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column;
-            flex-direction: column;
-            margin: 0 auto
-        }
-
-        .app-page .control-panel>a {
-            display: block
-        }
-
-        .mobile-input {
-            position: relative;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            border: 1px solid #d9d9d9;
-            border-width: 0 0 1px;
-            border-radius: 0
-        }
-
-        .account-switcher {
-            font-size: 16px;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            line-height: 49px
-        }
-
-        .account-switcher .account-tab {
-            color: #a1a1a1;
-            cursor: auto;
-            text-decoration: none;
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-            margin: 0;
-            text-align: center;
-            border-width: 0 0 1px;
-            border-style: solid;
-            border-color: #d9d9d9;
-            font-size:20px;
-            font-weight:bold;
-        }
-
-        .account-switcher .account-tab.is-selected {
-            color: #47bdf4;
-            border-color: #4fc3f7
-        }
-
-        .hint-error {
-            background-color: rgba(244, 111, 67, 0.1);
-            border-radius: 3px;
-            color: #f46f43;
-            display: block;
-            font-size: 12px;
-            line-height: 32px;
-            padding: 0 12px;
-        }
-    </style>
-    <!-- BEGIN PAGE LEVEL STYLES -->
-    @yield('head_block')
-    <!-- END PAGE LEVEL SCRIPTS -->
-    <!-- END THEME STYLES -->
-    <link rel="shortcut icon" href="favicon.ico"/>
-</head>
-
-<body class="login" style="background-color: #fff">
-
-<div class="app-page" >
-    <div class="main-card" >
-        <div class="app-feature" >
-            <div class="brand-cover" ></div>
-            <div class="app-brand" ></div>
-            <div class="app-client-type" style="font-size: 18px; color:#eee; opacity: 1; z-index:21; margin-top: 10px;">管理端</div>
-        </div>
-        <div class="app-container" style="display: flex;justify-content:center;align-items: center">
-            <form class="app-signin login-form" th:action="@{/admin/login}" th:method="POST" >
-                <fieldset class="control-panel" >
-                    <div class="account-switcher" >
-                        <a class="account-tab is-selected" >请使用帐号或手机号登录</a>
+    <body class=" login">
+        <!-- BEGIN : LOGIN PAGE 5-1 -->
+        <div class="user-login-5">
+            <div class="row bs-reset">
+                <div class="col-md-6 bs-reset">
+                    <div class="login-bg" style="background-image:url(/assets/admin/pages/img/login/bg1.jpg)">
+                        <img class="login-logo" src="/assets/admin/pages/img/login/logo.png" /> </div>
+                </div>
+                <div class="col-md-6 login-container bs-reset">
+                    <div class="login-content">
+                        <h1>管理员登录</h1>
+                        <p> Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing. </p>
+                        <form action="/login" class="login-form" method="post">
+                            <input type="hidden" name="{{_csrf.parameterName}}"  value="{{_csrf.token}}" />
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username" required/> </div>
+                                <div class="col-xs-12">
+                                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password" required/> </div>
+                            </div>
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                <span>请输入用户名或密码... </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="rem-password">
+                                        <p>记住我
+                                            <input type="checkbox" name="remember-me" class="rem-checkbox" />
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 text-right">
+                                    <div class="forgot-password">
+                                        <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a>
+                                    </div>
+                                    <button class="btn blue" type="submit">登录</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- BEGIN FORGOT PASSWORD FORM -->
+                        <form class="forget-form" action="/forgetPassword" method="post">
+                            <h3 class="font-green">忘记密码 ?</h3>
+                            <p> Enter your e-mail address below to reset your password. </p>
+                            <div class="form-group">
+                                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
+                            <div class="form-actions">
+                                <button type="button" id="back-btn" class="btn grey btn-default">返回</button>
+                                <button type="submit" class="btn blue btn-success uppercase pull-right">提交</button>
+                            </div>
+                        </form>
+                        <!-- END FORGOT PASSWORD FORM -->
                     </div>
-
-                    <div >
-                        <div class="lite-space" style="width:100%;height:35px;display:inline-block;vertical-align:middle;flex-grow:0;flex-shrink:0;-webkit-flex-grow:0;-webkit-flex-shrink:0;" ></div>
-                        <div class="mobile-input" >
-                            <input style="border:0" class="number-part" placeholder="帐号或手机号" type="text" name="sys_account_name" />
-                        </div>
-                        <div class="lite-space" style="height:15px;display:block;vertical-align:middle;flex-grow:0;flex-shrink:0;-webkit-flex-grow:0;-webkit-flex-shrink:0;" ></div>
-                        <div class="as-line" >
-                            <input placeholder="密码 (至少 6 位)" type="password" name="password"/>
-                        </div>
-                        <div class="lite-space" style="width:100%;height:35px;display:inline-block;vertical-align:middle;flex-grow:0;flex-shrink:0;-webkit-flex-grow:0;-webkit-flex-shrink:0;" >
-
-                        </div>
-                        <div class="as-line" id="login_failed" style="display:none">
-                            <span class="hint-error" >请输入帐号或密码</span>
-                            <div class="lite-space" style="width:100%;height:15px;display:inline-block;vertical-align:middle;flex-grow:0;flex-shrink:0;-webkit-flex-grow:0;-webkit-flex-shrink:0;" >
+                    <div class="login-footer">
+                        <div class="row bs-reset">
+                            <div class="col-xs-4 bs-reset">
+                                <ul class="login-social">
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-8 bs-reset">
+                                <div class="login-copyright text-right">
+                                    <p>Copyright &copy; Keenthemes 2015</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="as-line-filled" >
-                            <button class="button" style="width:100%;background-color:#4cbdf6;color:#fff">登录</button>
-                        </div>
-                        <div class="lite-space" style="height:20px;display:block;vertical-align:middle;flex-grow:0;flex-shrink:0;-webkit-flex-grow:0;-webkit-flex-shrink:0;" ></div>
-
-                        <div class="as-line" style="text-align: center;margin-top:50px;color:#d9d9d9;" >
-                            <span> Copyright © 2017 卓晟信息科技有限公司</span>
-                        </div>
                     </div>
-
-                </fieldset>
-
-            </form>
-
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="addressbar" ></div>
-</div>
-
-<!-- END LOGIN -->
-<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
-<!-- BEGIN CORE PLUGINS -->
-<!--[if lt IE 9]>
+        <!-- END : LOGIN PAGE 5-1 -->
+        <!--[if lt IE 9]>
 <script src="/assets/global/plugins/respond.min.js"></script>
-<script src="/assets/global/plugins/excanvas.min.js"></script>
+<script src="/assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
-<script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-<!-- END CORE PLUGINS -->
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/assets/global/plugins/jquery.form.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="/assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-<script src="/assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
-<script src="/assets/pages/scripts/login.js" type="text/javascript"></script>
-@yield('script_src')
-<!-- END PAGE LEVEL SCRIPTS -->
-<script>
-    jQuery(document).ready(function() {
-        Metronic.init(); // init metronic core components
-        Layout.init(); // init current layout
-        Demo.init();
-        Login.init();
-    });
-</script>
-@yield('script')
-<!-- END JAVASCRIPTS -->
-</body>
-<!-- END BODY -->
+        <!-- BEGIN CORE PLUGINS -->
+        <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="/assets/global/scripts/app.js" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="/assets/admin/pages/scripts/login.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <!-- END THEME LAYOUT SCRIPTS -->
+    </body>
+
 </html>
